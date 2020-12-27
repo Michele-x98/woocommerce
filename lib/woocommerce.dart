@@ -1051,7 +1051,7 @@ class WooCommerce {
     );
     _printToLog('Response.data: ' + response.data);
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      var cart = response.data as Map<String, dynamic>;
+      var cart = response.data as Map;
       CoCartTotal cartTotal;
       if (cart['total'] is int) {
         _printToLog('EmptyCart, return a CoCartTotal object with total = 0');
