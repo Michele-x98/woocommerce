@@ -1035,7 +1035,9 @@ class WooCommerce {
 
   Future<CoCartTotal> getCoCartTotal() async {
     await getAuthTokenFromDb();
-    _urlHeader['Authorization'] = 'Bearer ' + _authToken;
+    //_urlHeader['Authorization'] = 'Bearer ' + _authToken;
+    String token = 'Bearer ' + _authToken;
+    _printToLog('Thi is yor token : ' + token);
     String url = this.baseUrl + URL_COCART + 'totals';
     _printToLog('Url for getCoCartTotal : ' + url);
     var response = await Dio().get(
@@ -1043,7 +1045,7 @@ class WooCommerce {
       options: new Options(
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader: _urlHeader
+          HttpHeaders.authorizationHeader: token
         },
       ),
     );
@@ -1075,7 +1077,9 @@ class WooCommerce {
    */
   Future<List<CoCartModel>> getMyCoCart() async {
     await getAuthTokenFromDb();
-    _urlHeader['Authorization'] = 'Bearer ' + _authToken;
+    //_urlHeader['Authorization'] = 'Bearer ' + _authToken;
+    String token = 'Bearer ' + _authToken;
+    _printToLog('Thi is yor token : ' + token);
     String url = this.baseUrl + URL_COCART + 'get-cart';
     _printToLog('Url for getMyCoCart : ' + url);
     var response = await Dio().get(
@@ -1083,7 +1087,7 @@ class WooCommerce {
       options: new Options(
         headers: {
           HttpHeaders.contentTypeHeader: "application/json",
-          HttpHeaders.authorizationHeader: _urlHeader,
+          HttpHeaders.authorizationHeader: token,
         },
       ),
     );
