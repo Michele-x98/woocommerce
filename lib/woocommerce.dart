@@ -44,6 +44,8 @@ import "dart:core";
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:woocommerce/models/cocart_model.dart';
+import 'package:woocommerce/models/cocart_total.dart';
 import 'package:woocommerce/models/customer_download.dart';
 import 'package:woocommerce/models/payment_gateway.dart';
 import 'package:woocommerce/models/shipping_zone_method.dart';
@@ -1024,6 +1026,65 @@ class WooCommerce {
       _printToLog('added to my cart : ' + jsonStr.toString());
       return WooCartItem.fromJson(jsonStr);
     } else {
+      WooCommerceError err =
+          WooCommerceError.fromJson(json.decode(response.body));
+      throw err;
+    }
+  }
+
+  Future<CoCartTotal> getCoCartTotal() async {
+    await getAuthTokenFromDb();
+    _urlHeader['Authorization'] = 'Bearer ' + _authToken;
+    final response = await http.get(this.baseUrl + URL_COCART + 'totals',
+        headers: _urlHeader);
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      if (response.body is Map<String, dynamic>) {
+        _printToLog('response gotten : ' + response.body);
+        final jsonStr = json.decode(response.body);
+        CoCartTotal cartTotal = CoCartTotal.fromJson(jsonStr);
+        return cartTotal;
+      }
+    } else {
+      _printToLog(' error : ' + response.body);
+      WooCommerceError err =
+          WooCommerceError.fromJson(json.decode(response.body));
+      throw err;
+    }
+  }
+
+  /*
+   * Returns all CoCartItem in a customer Cart 
+   * with wepof_option selecetd 
+   */
+  Future<List<CoCartModel>> getMyCoCart() async {
+    await getAuthTokenFromDb();
+    _urlHeader['Authorization'] = 'Bearer ' + _authToken;
+    final response = await http.get(this.baseUrl + URL_COCART + 'get-cart',
+        headers: _urlHeader);
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      List<CoCartModel> list = new List<CoCartModel>();
+      if (response.body is Map<dynamic, dynamic>) {
+        Map myMap = response.body as Map;
+        _printToLog('response gotten : ' + response.toString());
+        myMap.forEach(
+          (key, value) {
+            CoCartModel coCartModel = new CoCartModel();
+            coCartModel = CoCartModel.fromJson(value);
+            list.add(coCartModel);
+          },
+        );
+        _printToLog('List of CoCartModel : ' + list.toString());
+        return list;
+      } else {
+        //List<dynamic> myList = response.body as List<dynamic>;
+        //if (myList.isEmpty) {
+        _printToLog('Empty Cart : ' + list.toString());
+        return list;
+        //}
+      }
+    } else {
+      _printToLog(' Error : ' + response.body);
       WooCommerceError err =
           WooCommerceError.fromJson(json.decode(response.body));
       throw err;
