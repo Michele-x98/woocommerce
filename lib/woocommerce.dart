@@ -1049,7 +1049,7 @@ class WooCommerce {
         },
       ),
     );
-    _printToLog('Response.data: ' + response.data);
+    //_printToLog('Response.data: ' + response.data);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       var cart = response.data as Map;
       CoCartTotal cartTotal;
