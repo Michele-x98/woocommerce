@@ -42,6 +42,7 @@ import 'dart:io';
 import "dart:math";
 import "dart:core";
 import 'package:crypto/crypto.dart' as crypto;
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:woocommerce/models/cocart_model.dart';
@@ -1035,19 +1036,35 @@ class WooCommerce {
   Future<CoCartTotal> getCoCartTotal() async {
     await getAuthTokenFromDb();
     _urlHeader['Authorization'] = 'Bearer ' + _authToken;
-    final response = await http.get(this.baseUrl + URL_COCART + 'totals',
-        headers: _urlHeader);
+    String url = this.baseUrl + URL_COCART + 'totals';
+    _printToLog('Url for getCoCartTotal : ' + url);
+    var response = await Dio().get(
+      url,
+      options: new Options(
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: _urlHeader
+        },
+      ),
+    );
+    _printToLog('Response.data: ' + response.data);
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      if (response.body is Map<String, dynamic>) {
-        _printToLog('response gotten : ' + response.body);
-        final jsonStr = json.decode(response.body);
-        CoCartTotal cartTotal = CoCartTotal.fromJson(jsonStr);
+      var cart = response.data as Map<String, dynamic>;
+      CoCartTotal cartTotal;
+      if (cart['total'] is int) {
+        _printToLog('EmptyCart, return a CoCartTotal object with total = 0');
+        cartTotal = new CoCartTotal();
+        cartTotal.total = '0';
+        return cartTotal;
+      } else {
+        _printToLog('Cart is not empty');
+        cartTotal = CoCartTotal.fromJson(response.data);
         return cartTotal;
       }
     } else {
-      _printToLog(' error : ' + response.body);
+      _printToLog(' error : ' + response.data);
       WooCommerceError err =
-          WooCommerceError.fromJson(json.decode(response.body));
+          WooCommerceError.fromJson(json.decode(response.data));
       throw err;
     }
   }
@@ -1059,13 +1076,21 @@ class WooCommerce {
   Future<List<CoCartModel>> getMyCoCart() async {
     await getAuthTokenFromDb();
     _urlHeader['Authorization'] = 'Bearer ' + _authToken;
-    final response = await http.get(this.baseUrl + URL_COCART + 'get-cart',
-        headers: _urlHeader);
-
+    String url = this.baseUrl + URL_COCART + 'get-cart';
+    _printToLog('Url for getMyCoCart : ' + url);
+    var response = await Dio().get(
+      url,
+      options: new Options(
+        headers: {
+          HttpHeaders.contentTypeHeader: "application/json",
+          HttpHeaders.authorizationHeader: _urlHeader,
+        },
+      ),
+    );
     if (response.statusCode >= 200 && response.statusCode < 300) {
       List<CoCartModel> list = new List<CoCartModel>();
-      if (response.body is Map<dynamic, dynamic>) {
-        Map myMap = response.body as Map;
+      if (response.data is Map<dynamic, dynamic>) {
+        Map myMap = response.data as Map;
         _printToLog('response gotten : ' + response.toString());
         myMap.forEach(
           (key, value) {
@@ -1077,16 +1102,13 @@ class WooCommerce {
         _printToLog('List of CoCartModel : ' + list.toString());
         return list;
       } else {
-        //List<dynamic> myList = response.body as List<dynamic>;
-        //if (myList.isEmpty) {
         _printToLog('Empty Cart : ' + list.toString());
         return list;
-        //}
       }
     } else {
-      _printToLog(' Error : ' + response.body);
+      _printToLog(' Error : ' + response.data);
       WooCommerceError err =
-          WooCommerceError.fromJson(json.decode(response.body));
+          WooCommerceError.fromJson(json.decode(response.data));
       throw err;
     }
   }
