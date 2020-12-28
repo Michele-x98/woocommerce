@@ -1080,7 +1080,7 @@ class WooCommerce {
     //_urlHeader['Authorization'] = 'Bearer ' + _authToken;
     String token = 'Bearer ' + _authToken;
     _printToLog('Thi is yor token : ' + token);
-    String url = this.baseUrl + URL_COCART + 'get-cart';
+    String url = this.baseUrl + URL_COCART + 'get-cart?thumb=true';
     _printToLog('Url for getMyCoCart : ' + url);
     var response = await Dio().get(
       url,

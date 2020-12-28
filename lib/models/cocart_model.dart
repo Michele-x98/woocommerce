@@ -24,6 +24,7 @@ class CoCartModel {
     this.productName,
     this.productTitle,
     this.productPrice,
+    this.productImage,
   });
 
   ThwepofOptions thwepofOptions;
@@ -37,6 +38,7 @@ class CoCartModel {
   String productName;
   String productTitle;
   String productPrice;
+  String productImage;
 
   factory CoCartModel.fromJson(Map<String, dynamic> json) => CoCartModel(
         thwepofOptions: json["thwepof_options"] == null
@@ -56,6 +58,8 @@ class CoCartModel {
             json["product_title"] == null ? null : json["product_title"],
         productPrice:
             json["product_price"] == null ? null : json["product_price"],
+        productImage:
+            json["product_image"] == null ? null : json["product_image"],
       );
 
   Map<String, dynamic> toJson() => {
