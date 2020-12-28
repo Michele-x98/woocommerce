@@ -187,7 +187,7 @@ class WooCommerce {
       _authToken = authResponse.token;
       _localDbService.updateSecurityToken(_authToken);
       _urlHeader['Authorization'] = 'Bearer ${authResponse.token}';
-      return _authToken;
+      return authResponse;
     } else {
       throw new WooCommerceError.fromJson(json.decode(response.body));
     }
