@@ -223,9 +223,8 @@ class WooCommerce {
           await authenticateViaJWT(username: username, password: password);
       _printToLog('attempted token : ' + response.toString());
       if (response is String) {
-        final res = await fetchLoggedInUserId();
-        final jsonStr = json.decode(res);
-        customer = await getCustomerById(id: jsonStr['id']);
+        WooCustomer customer = await fetchLoggedInUserId();
+        customer = await getCustomerById(id: customer.id);
       }
       return customer;
     } catch (e) {
@@ -246,7 +245,7 @@ class WooCommerce {
   /// Fetches already authenticated user, using Jwt
   ///
   /// Associated endpoint : /wp-json/wp/v2/users/me
-  Future<dynamic> fetchLoggedInUserId() async {
+  Future<WooCustomer> fetchLoggedInUserId() async {
     _authToken = await _localDbService.getSecurityToken();
     _urlHeader['Authorization'] = 'Bearer ' + _authToken;
     final response =
@@ -259,7 +258,11 @@ class WooCommerce {
             code: 'wp_empty_user',
             message: "No user found or you dont have permission");
       _printToLog('account user fetch : ' + jsonStr.toString());
-      return jsonStr;
+      WooCustomer customer = new WooCustomer(
+        id: jsonStr['id'],
+        firstName: jsonStr['name'],
+      );
+      return customer;
     } else {
       WooCommerceError err =
           WooCommerceError.fromJson(json.decode(response.body));
