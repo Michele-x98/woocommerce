@@ -193,6 +193,25 @@ class WooCommerce {
     }
   }
 
+  Future<bool> validateToken() async {
+    _authToken = await _localDbService.getSecurityToken();
+    String token = 'Bearer ' + _authToken;
+    try {
+      var res = await Dio().post(
+        'http://localhost/enjoysaladnovembre/wp-json/jwt-auth/v1/token/validate',
+        options: Options(
+          headers: {HttpHeaders.authorizationHeader: token},
+        ),
+      );
+      if (res.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } on DioError catch (e) {
+      return false;
+    }
+  }
+
   /// Authenticates the user via JWT and returns a WooCommerce customer object of the current logged in customer.
   loginCustomer({
     @required String username,
@@ -1039,7 +1058,6 @@ class WooCommerce {
 
   Future<CoCartTotal> getCoCartTotal() async {
     await getAuthTokenFromDb();
-    //_urlHeader['Authorization'] = 'Bearer ' + _authToken;
     String token = 'Bearer ' + _authToken;
     _printToLog('Thi is yor token : ' + token);
     String url = this.baseUrl + URL_COCART + 'totals';
