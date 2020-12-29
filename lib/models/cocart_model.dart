@@ -88,18 +88,20 @@ class ThwepofOptions {
     this.pane,
   });
 
-  AddOns salse;
-  AddOns posate;
-  AddOns condimenti;
-  AddOns pane;
+  CartOption salse;
+  CartOption posate;
+  CartOption condimenti;
+  CartOption pane;
 
   factory ThwepofOptions.fromJson(Map<String, dynamic> json) => ThwepofOptions(
-        salse: json["salse"] == null ? null : AddOns.fromJson(json["salse"]),
-        posate: json["posate"] == null ? null : AddOns.fromJson(json["posate"]),
+        salse:
+            json["salse"] == null ? null : CartOption.fromJson(json["salse"]),
+        posate:
+            json["posate"] == null ? null : CartOption.fromJson(json["posate"]),
         condimenti: json["condimenti"] == null
             ? null
-            : AddOns.fromJson(json["condimenti"]),
-        pane: json["pane"] == null ? null : AddOns.fromJson(json["pane"]),
+            : CartOption.fromJson(json["condimenti"]),
+        pane: json["pane"] == null ? null : CartOption.fromJson(json["pane"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -110,8 +112,8 @@ class ThwepofOptions {
       };
 }
 
-class AddOns {
-  AddOns({
+class CartOption {
+  CartOption({
     this.name,
     this.value,
     this.type,
@@ -125,7 +127,7 @@ class AddOns {
   String label;
   List<String> options;
 
-  factory AddOns.fromJson(Map<String, dynamic> json) => AddOns(
+  factory CartOption.fromJson(Map<String, dynamic> json) => CartOption(
         name: json["name"] == null ? null : json["name"],
         value: json["value"] == null ? null : json["value"],
         type: json["type"] == null ? null : json["type"],

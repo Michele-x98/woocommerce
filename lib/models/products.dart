@@ -413,26 +413,26 @@ class WepofOption {
 }
 
 class Fields {
-  List<AddOns> addOns = new List<AddOns>();
+  List<ProductOption> addOns = new List<ProductOption>();
 
   Fields.fromJson(Map<String, dynamic> json) {
     if (json['salse'] != null) {
-      addOns.add(AddOns.fromJson(json["salse"]));
+      addOns.add(ProductOption.fromJson(json["salse"]));
     }
     if (json['pane'] != null) {
-      addOns.add(AddOns.fromJson(json["pane"]));
+      addOns.add(ProductOption.fromJson(json["pane"]));
     }
     if (json['posate'] != null) {
-      addOns.add(AddOns.fromJson(json["posate"]));
+      addOns.add(ProductOption.fromJson(json["posate"]));
     }
     if (json['condimenti'] != null) {
-      addOns.add(AddOns.fromJson(json["condimenti"]));
+      addOns.add(ProductOption.fromJson(json["condimenti"]));
     }
   }
 }
 
-class AddOns {
-  AddOns({
+class ProductOption {
+  ProductOption({
     this.order,
     this.type,
     this.id,
@@ -454,7 +454,7 @@ class AddOns {
   String title;
   String enabled;
 
-  factory AddOns.fromJson(Map<String, dynamic> json) => AddOns(
+  factory ProductOption.fromJson(Map<String, dynamic> json) => ProductOption(
         order: json["order"] == null ? null : json["order"],
         type: json["type"] == null ? null : json["type"],
         id: json["id"] == null ? null : json["id"],
