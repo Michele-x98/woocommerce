@@ -389,6 +389,9 @@ class WooProductDownload {
       };
 }
 
+/*
+ * Oggetto preso dal prodotto
+ */
 class WepofOption {
   WepofOption({
     this.id,
@@ -405,11 +408,6 @@ class WepofOption {
         name: json["name"] == null ? null : json["name"],
         fields: json["fields"] == null ? null : Fields.fromJson(json["fields"]),
       );
-
-  Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "name": name == null ? null : name,
-      };
 }
 
 class Fields {

@@ -61,55 +61,28 @@ class CoCartModel {
         productImage:
             json["product_image"] == null ? null : json["product_image"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "thwepof_options":
-            thwepofOptions == null ? null : thwepofOptions.toJson(),
-        "key": key == null ? null : key,
-        "product_id": productId == null ? null : productId,
-        "variation_id": variationId == null ? null : variationId,
-        "variation": variation == null
-            ? null
-            : List<dynamic>.from(variation.map((x) => x)),
-        "quantity": quantity == null ? null : quantity,
-        "data_hash": dataHash == null ? null : dataHash,
-        "line_tax": lineTax == null ? null : lineTax,
-        "product_name": productName == null ? null : productName,
-        "product_title": productTitle == null ? null : productTitle,
-        "product_price": productPrice == null ? null : productPrice,
-      };
 }
 
+/*
+ * Oggetto preso dal carrello relativo al prodotto 
+ */
 class ThwepofOptions {
-  ThwepofOptions({
-    this.salse,
-    this.posate,
-    this.condimenti,
-    this.pane,
-  });
+  List<CartOption> cartOptions = new List<CartOption>();
 
-  CartOption salse;
-  CartOption posate;
-  CartOption condimenti;
-  CartOption pane;
-
-  factory ThwepofOptions.fromJson(Map<String, dynamic> json) => ThwepofOptions(
-        salse:
-            json["salse"] == null ? null : CartOption.fromJson(json["salse"]),
-        posate:
-            json["posate"] == null ? null : CartOption.fromJson(json["posate"]),
-        condimenti: json["condimenti"] == null
-            ? null
-            : CartOption.fromJson(json["condimenti"]),
-        pane: json["pane"] == null ? null : CartOption.fromJson(json["pane"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "salse": salse == null ? null : salse.toJson(),
-        "posate": posate == null ? null : posate.toJson(),
-        "condimenti": condimenti == null ? null : condimenti.toJson(),
-        "pane": pane == null ? null : pane.toJson(),
-      };
+  ThwepofOptions.fromJson(Map<String, dynamic> json) {
+    if (json['salse'] != null) {
+      cartOptions.add(CartOption.fromJson(json["salse"]));
+    }
+    if (json['pane'] != null) {
+      cartOptions.add(CartOption.fromJson(json["pane"]));
+    }
+    if (json['posate'] != null) {
+      cartOptions.add(CartOption.fromJson(json["posate"]));
+    }
+    if (json['condimenti'] != null) {
+      cartOptions.add(CartOption.fromJson(json["condimenti"]));
+    }
+  }
 }
 
 class CartOption {
