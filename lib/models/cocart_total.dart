@@ -1,134 +1,108 @@
-// To parse this JSON data, do
-//
-//     final coCartTotal = coCartTotalFromJson(jsonString);
-
-import 'dart:convert';
-
-CoCartTotal coCartTotalFromJson(String str) =>
-    CoCartTotal.fromJson(json.decode(str));
-
-String coCartTotalToJson(CoCartTotal data) => json.encode(data.toJson());
-
 class CoCartTotal {
-  CoCartTotal({
-    this.subtotal,
-    this.subtotalTax,
-    this.shippingTotal,
-    this.shippingTax,
-    this.shippingTaxes,
-    this.discountTotal,
-    this.discountTax,
-    this.cartContentsTotal,
-    this.cartContentsTax,
-    this.cartContentsTaxes,
-    this.feeTotal,
-    this.feeTax,
-    this.feeTaxes,
-    this.total,
-    this.totalTax,
-  });
-
   String subtotal;
-  double subtotalTax;
+  String subtotalTax;
   String shippingTotal;
-  int shippingTax;
+  String shippingTax;
   ShippingTaxes shippingTaxes;
-  int discountTotal;
-  int discountTax;
+  String discountTotal;
+  String discountTax;
   String cartContentsTotal;
-  double cartContentsTax;
+  String cartContentsTax;
   CartContentsTaxes cartContentsTaxes;
   String feeTotal;
-  int feeTax;
-  List<dynamic> feeTaxes;
+  String feeTax;
   String total;
-  double totalTax;
+  String totalTax;
 
-  factory CoCartTotal.fromJson(Map<String, dynamic> json) => CoCartTotal(
-        subtotal: json["subtotal"] == null ? null : json["subtotal"],
-        subtotalTax: json["subtotal_tax"] == null
-            ? null
-            : json["subtotal_tax"].toDouble(),
-        shippingTotal:
-            json["shipping_total"] == null ? null : json["shipping_total"],
-        shippingTax: json["shipping_tax"] == null ? null : json["shipping_tax"],
-        shippingTaxes: json["shipping_taxes"] == null
-            ? null
-            : ShippingTaxes.fromJson(json["shipping_taxes"]),
-        discountTotal:
-            json["discount_total"] == null ? null : json["discount_total"],
-        discountTax: json["discount_tax"] == null ? null : json["discount_tax"],
-        cartContentsTotal: json["cart_contents_total"] == null
-            ? null
-            : json["cart_contents_total"],
-        cartContentsTax: json["cart_contents_tax"] == null
-            ? null
-            : json["cart_contents_tax"].toDouble(),
-        cartContentsTaxes: json["cart_contents_taxes"] == null
-            ? null
-            : CartContentsTaxes.fromJson(json["cart_contents_taxes"]),
-        feeTotal: json["fee_total"] == null ? null : json["fee_total"],
-        feeTax: json["fee_tax"] == null ? null : json["fee_tax"],
-        feeTaxes: json["fee_taxes"] == null
-            ? null
-            : List<dynamic>.from(json["fee_taxes"].map((x) => x)),
-        total: json["total"] == null ? null : json["total"],
-        totalTax:
-            json["total_tax"] == null ? null : json["total_tax"].toDouble(),
-      );
+  CoCartTotal(
+      {this.subtotal,
+      this.subtotalTax,
+      this.shippingTotal,
+      this.shippingTax,
+      this.shippingTaxes,
+      this.discountTotal,
+      this.discountTax,
+      this.cartContentsTotal,
+      this.cartContentsTax,
+      this.cartContentsTaxes,
+      this.feeTotal,
+      this.feeTax,
+      this.total,
+      this.totalTax});
 
-  Map<String, dynamic> toJson() => {
-        "subtotal": subtotal == null ? null : subtotal,
-        "subtotal_tax": subtotalTax == null ? null : subtotalTax,
-        "shipping_total": shippingTotal == null ? null : shippingTotal,
-        "shipping_tax": shippingTax == null ? null : shippingTax,
-        "shipping_taxes": shippingTaxes == null ? null : shippingTaxes.toJson(),
-        "discount_total": discountTotal == null ? null : discountTotal,
-        "discount_tax": discountTax == null ? null : discountTax,
-        "cart_contents_total":
-            cartContentsTotal == null ? null : cartContentsTotal,
-        "cart_contents_tax": cartContentsTax == null ? null : cartContentsTax,
-        "cart_contents_taxes":
-            cartContentsTaxes == null ? null : cartContentsTaxes.toJson(),
-        "fee_total": feeTotal == null ? null : feeTotal,
-        "fee_tax": feeTax == null ? null : feeTax,
-        "fee_taxes": feeTaxes == null
-            ? null
-            : List<dynamic>.from(feeTaxes.map((x) => x)),
-        "total": total == null ? null : total,
-        "total_tax": totalTax == null ? null : totalTax,
-      };
-}
+  CoCartTotal.fromJson(Map<String, dynamic> json) {
+    subtotal = json['subtotal'];
+    subtotalTax = json['subtotal_tax'];
+    shippingTotal = json['shipping_total'];
+    shippingTax = json['shipping_tax'];
+    shippingTaxes = json['shipping_taxes'] != null
+        ? new ShippingTaxes.fromJson(json['shipping_taxes'])
+        : null;
+    discountTotal = json['discount_total'];
+    discountTax = json['discount_tax'];
+    cartContentsTotal = json['cart_contents_total'];
+    cartContentsTax = json['cart_contents_tax'];
+    cartContentsTaxes = json['cart_contents_taxes'] != null
+        ? new CartContentsTaxes.fromJson(json['cart_contents_taxes'])
+        : null;
+    feeTotal = json['fee_total'];
+    feeTax = json['fee_tax'];
+    total = json['total'];
+    totalTax = json['total_tax'];
+  }
 
-class CartContentsTaxes {
-  CartContentsTaxes({
-    this.the5,
-  });
-
-  double the5;
-
-  factory CartContentsTaxes.fromJson(Map<String, dynamic> json) =>
-      CartContentsTaxes(
-        the5: json["5"] == null ? null : json["5"].toDouble(),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "5": the5 == null ? null : the5,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['subtotal'] = this.subtotal;
+    data['subtotal_tax'] = this.subtotalTax;
+    data['shipping_total'] = this.shippingTotal;
+    data['shipping_tax'] = this.shippingTax;
+    if (this.shippingTaxes != null) {
+      data['shipping_taxes'] = this.shippingTaxes.toJson();
+    }
+    data['discount_total'] = this.discountTotal;
+    data['discount_tax'] = this.discountTax;
+    data['cart_contents_total'] = this.cartContentsTotal;
+    data['cart_contents_tax'] = this.cartContentsTax;
+    if (this.cartContentsTaxes != null) {
+      data['cart_contents_taxes'] = this.cartContentsTaxes.toJson();
+    }
+    data['fee_total'] = this.feeTotal;
+    data['fee_tax'] = this.feeTax;
+    data['total'] = this.total;
+    data['total_tax'] = this.totalTax;
+    return data;
+  }
 }
 
 class ShippingTaxes {
-  ShippingTaxes({
-    this.the2,
-  });
+  double d2;
 
-  int the2;
+  ShippingTaxes({this.d2});
 
-  factory ShippingTaxes.fromJson(Map<String, dynamic> json) => ShippingTaxes(
-        the2: json["2"] == null ? null : json["2"],
-      );
+  ShippingTaxes.fromJson(Map<String, dynamic> json) {
+    d2 = json['2'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "2": the2 == null ? null : the2,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['2'] = this.d2;
+    return data;
+  }
+}
+
+class CartContentsTaxes {
+  double d5;
+
+  CartContentsTaxes({this.d5});
+
+  CartContentsTaxes.fromJson(Map<String, dynamic> json) {
+    d5 = json['5'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['5'] = this.d5;
+    return data;
+  }
 }
