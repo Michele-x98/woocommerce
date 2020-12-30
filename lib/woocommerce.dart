@@ -1056,6 +1056,27 @@ class WooCommerce {
     }
   }
 
+  Future<bool> removeCoCartItem(String key) async {
+    await getAuthTokenFromDb();
+    String token = 'Bearer ' + _authToken;
+    _printToLog('Thi is yor token : ' + token);
+    String url = this.baseUrl + URL_COCART + 'item';
+    _printToLog('Url for getCoCartTotal : ' + url);
+
+    var res = await Dio().delete(
+      url + '?cart_item_key=$key',
+      options: Options(
+        headers: {HttpHeaders.authorizationHeader: token},
+      ),
+    );
+    if (res.statusCode == 200) {
+      print(res.toString());
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<CoCartTotal> getCoCartTotal() async {
     await getAuthTokenFromDb();
     String token = 'Bearer ' + _authToken;
@@ -1071,7 +1092,6 @@ class WooCommerce {
         },
       ),
     );
-    //_printToLog('Response.data: ' + response.data);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       var cart = response.data as Map;
       CoCartTotal cartTotal;
