@@ -1077,6 +1077,9 @@ class WooCommerce {
     }
   }
 
+  /*
+   * Return a CoCartTotal object 
+   */
   Future<CoCartTotal> getCoCartTotal() async {
     await getAuthTokenFromDb();
     String token = 'Bearer ' + _authToken;
@@ -1095,10 +1098,9 @@ class WooCommerce {
     if (response.statusCode >= 200 && response.statusCode < 300) {
       var cart = response.data as Map;
       CoCartTotal cartTotal;
-      if (cart['total'] is int) {
+      if (cart['total'] == 0) {
         _printToLog('EmptyCart, return a CoCartTotal object with total = 0');
-        cartTotal = new CoCartTotal();
-        cartTotal.total = '0';
+        cartTotal = new CoCartTotal(total: '0');
         return cartTotal;
       } else {
         _printToLog('Cart is not empty');
