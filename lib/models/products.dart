@@ -395,37 +395,28 @@ class WooProductDownload {
 class WepofOption {
   String id;
   String name;
-  List<Fields> fields;
+  List<ProductOption> productOptions = new List<ProductOption>();
 
-  WepofOption({this.id, this.name, this.fields});
+  WepofOption({this.id, this.name, this.productOptions});
 
   WepofOption.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     if (json['fields'] != null) {
-      fields = new List<Fields>();
-      json['fields'].forEach((v) {
-        fields.add(new Fields.fromJson(v));
+      json['fields'].forEach((key, value) {
+        if (key == 'posate') {
+          productOptions.add(new ProductOption.fromJson(value));
+        }
+        if (key == 'pane') {
+          productOptions.add(new ProductOption.fromJson(value));
+        }
+        if (key == 'condimenti') {
+          productOptions.add(new ProductOption.fromJson(value));
+        }
+        if (key == 'salse') {
+          productOptions.add(new ProductOption.fromJson(value));
+        }
       });
-    }
-  }
-}
-
-class Fields {
-  List<ProductOption> productOptions = [];
-
-  Fields.fromJson(Map<String, dynamic> json) {
-    if (json['salse'] != null) {
-      productOptions.add(ProductOption.fromJson(json["salse"]));
-    }
-    if (json['pane'] != null) {
-      productOptions.add(ProductOption.fromJson(json["pane"]));
-    }
-    if (json['posate'] != null) {
-      productOptions.add(ProductOption.fromJson(json["posate"]));
-    }
-    if (json['condimenti'] != null) {
-      productOptions.add(ProductOption.fromJson(json["condimenti"]));
     }
   }
 }
@@ -438,7 +429,7 @@ class ProductOption {
   String value;
   String placeholder;
   String title;
-  List<Option> options = [];
+  List<OptionInfo> options = new List<OptionInfo>();
 
   ProductOption(
       {this.order,
@@ -458,21 +449,23 @@ class ProductOption {
     value = json['value'];
     placeholder = json['placeholder'];
     title = json['title'];
-    json['options'].forEach((v) {
-      options.add(new Option.fromJson(v));
-    });
+    if (json['options'] != null) {
+      json['options'].forEach((key, value) {
+        options.add(new OptionInfo.fromJson(value));
+      });
+    }
   }
 }
 
-class Option {
+class OptionInfo {
   String key;
   String text;
   String price;
   String priceType;
 
-  Option({this.key, this.text, this.price, this.priceType});
+  OptionInfo({this.key, this.text, this.price, this.priceType});
 
-  Option.fromJson(Map<String, dynamic> json) {
+  OptionInfo.fromJson(Map<String, dynamic> json) {
     key = json['key'];
     text = json['text'];
     price = json['price'];
