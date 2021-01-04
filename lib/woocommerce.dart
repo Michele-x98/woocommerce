@@ -1056,21 +1056,48 @@ class WooCommerce {
     }
   }
 
+  Future<String> updateCoCartItem(String key, int quantity) async {
+    await getAuthTokenFromDb();
+    String token = 'Bearer ' + _authToken;
+    _printToLog('Thi is yor token : ' + token);
+    String url = this.baseUrl +
+        URL_COCART +
+        'item?cart_item_key=$key&quantity=$quantity';
+    _printToLog('Url for getCoCartTotal : ' + url);
+
+    var res = await Dio().post(
+      url,
+      options: Options(
+        headers: {HttpHeaders.authorizationHeader: token},
+      ),
+    );
+
+    if (res.statusCode == 200) {
+      var map = res.data as Map;
+      String message = map['message'];
+      return message;
+    } else {
+      return 'error';
+    }
+  }
+
+  /*
+   * Remove itemo from CoCart
+   */
   Future<bool> removeCoCartItem(String key) async {
     await getAuthTokenFromDb();
     String token = 'Bearer ' + _authToken;
     _printToLog('Thi is yor token : ' + token);
-    String url = this.baseUrl + URL_COCART + 'item';
+    String url = this.baseUrl + URL_COCART + 'item?cart_item_key=$key';
     _printToLog('Url for getCoCartTotal : ' + url);
 
     var res = await Dio().delete(
-      url + '?cart_item_key=$key',
+      url,
       options: Options(
         headers: {HttpHeaders.authorizationHeader: token},
       ),
     );
     if (res.statusCode == 200) {
-      print(res.toString());
       return true;
     } else {
       return false;

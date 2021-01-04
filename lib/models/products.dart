@@ -393,89 +393,98 @@ class WooProductDownload {
  * Oggetto preso dal prodotto
  */
 class WepofOption {
-  WepofOption({
-    this.id,
-    this.name,
-    this.fields,
-  });
-
   String id;
   String name;
-  Fields fields;
+  List<Fields> fields;
 
-  factory WepofOption.fromJson(Map<String, dynamic> json) => WepofOption(
-        id: json["id"] == null ? null : json["id"],
-        name: json["name"] == null ? null : json["name"],
-        fields: json["fields"] == null ? null : Fields.fromJson(json["fields"]),
-      );
+  WepofOption({this.id, this.name, this.fields});
+
+  WepofOption.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    if (json['fields'] != null) {
+      fields = new List<Fields>();
+      json['fields'].forEach((v) {
+        fields.add(new Fields.fromJson(v));
+      });
+    }
+  }
 }
 
 class Fields {
-  List<ProductOption> addOns = new List<ProductOption>();
+  List<ProductOption> productOptions = [];
 
   Fields.fromJson(Map<String, dynamic> json) {
     if (json['salse'] != null) {
-      addOns.add(ProductOption.fromJson(json["salse"]));
+      productOptions.add(ProductOption.fromJson(json["salse"]));
     }
     if (json['pane'] != null) {
-      addOns.add(ProductOption.fromJson(json["pane"]));
+      productOptions.add(ProductOption.fromJson(json["pane"]));
     }
     if (json['posate'] != null) {
-      addOns.add(ProductOption.fromJson(json["posate"]));
+      productOptions.add(ProductOption.fromJson(json["posate"]));
     }
     if (json['condimenti'] != null) {
-      addOns.add(ProductOption.fromJson(json["condimenti"]));
+      productOptions.add(ProductOption.fromJson(json["condimenti"]));
     }
   }
 }
 
 class ProductOption {
-  ProductOption({
-    this.order,
-    this.type,
-    this.id,
-    this.name,
-    this.value,
-    this.placeholder,
-    this.options,
-    this.title,
-    this.enabled,
-  });
-
-  int order;
+  String order;
   String type;
   String id;
   String name;
   String value;
   String placeholder;
-  List<String> options;
   String title;
-  String enabled;
+  List<Option> options = [];
 
-  factory ProductOption.fromJson(Map<String, dynamic> json) => ProductOption(
-        order: json["order"] == null ? null : json["order"],
-        type: json["type"] == null ? null : json["type"],
-        id: json["id"] == null ? null : json["id"],
-        name: json["name"] == null ? null : json["name"],
-        value: json["value"] == null ? null : json["value"],
-        placeholder: json["placeholder"] == null ? null : json["placeholder"],
-        options: json["options"] == null
-            ? null
-            : List<String>.from(json["options"].map((x) => x)),
-        title: json["title"] == null ? null : json["title"],
-        enabled: json["enabled"] == null ? null : json["enabled"],
-      );
+  ProductOption(
+      {this.order,
+      this.type,
+      this.id,
+      this.name,
+      this.value,
+      this.placeholder,
+      this.title,
+      this.options});
 
-  Map<String, dynamic> toJson() => {
-        "order": order == null ? null : order,
-        "type": type == null ? null : type,
-        "id": id == null ? null : id,
-        "name": name == null ? null : name,
-        "value": value == null ? null : value,
-        "placeholder": placeholder == null ? null : placeholder,
-        "options":
-            options == null ? null : List<dynamic>.from(options.map((x) => x)),
-        "title": title == null ? null : title,
-        "enabled": enabled == null ? null : enabled,
-      };
+  ProductOption.fromJson(Map<String, dynamic> json) {
+    order = json['order'];
+    type = json['type'];
+    id = json['id'];
+    name = json['name'];
+    value = json['value'];
+    placeholder = json['placeholder'];
+    title = json['title'];
+    json['options'].forEach((v) {
+      options.add(new Option.fromJson(v));
+    });
+  }
+}
+
+class Option {
+  String key;
+  String text;
+  String price;
+  String priceType;
+
+  Option({this.key, this.text, this.price, this.priceType});
+
+  Option.fromJson(Map<String, dynamic> json) {
+    key = json['key'];
+    text = json['text'];
+    price = json['price'];
+    priceType = json['price_type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['key'] = this.key;
+    data['text'] = this.text;
+    data['price'] = this.price;
+    data['price_type'] = this.priceType;
+    return data;
+  }
 }
