@@ -45,6 +45,7 @@ import 'package:crypto/crypto.dart' as crypto;
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:woocommerce/models/cocart_add_request.dart';
 import 'package:woocommerce/models/cocart_model.dart';
 import 'package:woocommerce/models/cocart_total.dart';
 import 'package:woocommerce/models/customer_download.dart';
@@ -1089,7 +1090,7 @@ class WooCommerce {
     String token = 'Bearer ' + _authToken;
     _printToLog('Thi is yor token : ' + token);
     String url = this.baseUrl + URL_COCART + 'item?cart_item_key=$key';
-    _printToLog('Url for getCoCartTotal : ' + url);
+    _printToLog('Url for removeCoCartIteml : ' + url);
 
     var res = await Dio().delete(
       url,
@@ -1098,6 +1099,32 @@ class WooCommerce {
       ),
     );
     if (res.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /*
+   * Add item to CoCart 
+   */
+
+  Future<bool> addCoCartItem(CoCartItemRequest coCartItemRequest) async {
+    await getAuthTokenFromDb();
+    String token = 'Bearer ' + _authToken;
+    _printToLog('Thi is yor token : ' + token);
+    String url = this.baseUrl + URL_COCART + 'add-item';
+    _printToLog('Url of addCoCartItem : ' + url);
+
+    var body = jsonEncode(coCartItemRequest);
+    final response = await Dio().post(
+      url,
+      options: Options(
+        headers: {HttpHeaders.authorizationHeader: token},
+      ),
+      data: body,
+    );
+    if (response.statusCode == 200) {
       return true;
     } else {
       return false;
