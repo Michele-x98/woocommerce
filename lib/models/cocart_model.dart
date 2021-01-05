@@ -41,7 +41,7 @@ class CoCartModel {
   String productImage;
 
   factory CoCartModel.fromJson(Map<String, dynamic> json) => CoCartModel(
-        thwepofOptions: json["thwepof_options"] == null
+        thwepofOptions: json["thwepo_options"] == null
             ? null
             : ThwepofOptions.fromJson(json["thwepof_options"]),
         key: json["key"] == null ? null : json["key"],
@@ -91,23 +91,18 @@ class CartOption {
     this.value,
     this.type,
     this.label,
-    this.options,
   });
 
   String name;
   String value;
   String type;
   String label;
-  List<String> options;
 
   factory CartOption.fromJson(Map<String, dynamic> json) => CartOption(
         name: json["name"] == null ? null : json["name"],
         value: json["value"] == null ? null : json["value"],
         type: json["type"] == null ? null : json["type"],
         label: json["label"] == null ? null : json["label"],
-        options: json["options"] == null
-            ? null
-            : List<String>.from(json["options"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -115,7 +110,5 @@ class CartOption {
         "value": value == null ? null : value,
         "type": type == null ? null : type,
         "label": label == null ? null : label,
-        "options":
-            options == null ? null : List<dynamic>.from(options.map((x) => x)),
       };
 }
