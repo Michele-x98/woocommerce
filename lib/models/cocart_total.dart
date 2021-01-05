@@ -1,16 +1,16 @@
 class CoCartTotal {
   String subtotal;
-  double subtotalTax;
+  num subtotalTax;
   String shippingTotal;
-  double shippingTax;
-  double discountTotal;
-  double discountTax;
+  num shippingTax;
+  num discountTotal;
+  num discountTax;
   String cartContentsTotal;
-  double cartContentsTax;
+  num cartContentsTax;
   String feeTotal;
-  double feeTax;
+  num feeTax;
   String total;
-  double totalTax;
+  num totalTax;
 
   CoCartTotal(
       {this.subtotal,
