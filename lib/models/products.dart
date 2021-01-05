@@ -224,7 +224,7 @@ class WooProduct {
         metaData = (json['meta_data'] as List)
             .map((i) => MetaData.fromJson(i))
             .toList(),
-        wepoOfOptions = (json['wepof_options'] as List)
+        wepoOfOptions = (json['wepo_options'] as List)
             .map((i) => WepofOption.fromJson(i))
             .toList();
 
