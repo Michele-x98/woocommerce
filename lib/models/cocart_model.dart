@@ -80,14 +80,21 @@ class CartOption {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['field'] = 'select';
+    data['field_type'] = 'select';
     data['name'] = this.name;
     data['label'] = this.label;
     data['value'] = this.value;
+    data['price'] = "";
+    data['price_type'] = "";
+    data['price_min_unit'] = "";
     data['price_unit'] = 0;
     data['quantity'] = false;
     data['price_field'] = 1;
     data['options'] = listOptionToJson();
+    data['hide_in_cart'] = false;
+    data['hide_in_checkout'] = false;
+    data['show_price_in_order'] = true;
+    data['price_flat_fee'] = false;
     return data;
   }
 

@@ -477,7 +477,7 @@ class OptionInfo {
     data['key'] = this.key;
     data['text'] = this.text;
     data['price'] = this.price;
-    data['price_type'] = "vuoto";
+    data['price_type'] = this.priceType;
     return data;
   }
 }
