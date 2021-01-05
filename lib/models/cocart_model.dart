@@ -50,6 +50,13 @@ class ThwepoOptions {
       cartOption.add(new CartOption.fromJson(value));
     });
   }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    this.cartOption.forEach((element) {
+      data[element.name] = element.toJson();
+    });
+    return data;
+  }
 }
 
 class CartOption {
@@ -69,5 +76,26 @@ class CartOption {
         options.add(new OptionInfo.fromJson(value));
       });
     }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['field'] = 'select';
+    data['name'] = this.name;
+    data['label'] = this.label;
+    data['value'] = this.value;
+    data['price_unit'] = 0;
+    data['quantity'] = false;
+    data['price_field'] = 1;
+    data['options'] = listOptionToJson();
+    return data;
+  }
+
+  Map<String, dynamic> listOptionToJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    this.options.forEach((element) {
+      data[element.key] = element.toJson();
+    });
+    return data;
   }
 }
