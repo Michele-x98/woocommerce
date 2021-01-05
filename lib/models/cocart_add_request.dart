@@ -23,7 +23,7 @@ class CartItemData {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['twepo_options'] = this.thwepoOptions.toJson();
+    data['thwepo_options'] = this.thwepoOptions.toJson();
     return data;
   }
 }

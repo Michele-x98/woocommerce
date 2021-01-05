@@ -86,8 +86,8 @@ class CartOption {
     data['value'] = this.value;
     data['price'] = "";
     data['price_type'] = "";
-    data['price_min_unit'] = "";
     data['price_unit'] = 0;
+    data['price_min_unit'] = "";
     data['quantity'] = false;
     data['price_field'] = 1;
     data['options'] = listOptionToJson();
