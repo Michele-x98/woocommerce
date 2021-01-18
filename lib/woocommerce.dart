@@ -1057,6 +1057,9 @@ class WooCommerce {
     }
   }
 
+  /*
+   * Update item quantity on CoCart
+   */
   Future<String> updateCoCartItem(String key, int quantity) async {
     await getAuthTokenFromDb();
     String token = 'Bearer ' + _authToken;
@@ -1064,7 +1067,7 @@ class WooCommerce {
     String url = this.baseUrl +
         URL_COCART +
         'item?cart_item_key=$key&quantity=$quantity';
-    _printToLog('Url for getCoCartTotal : ' + url);
+    _printToLog('Url for updateCoCartItem : ' + url);
 
     var res = await Dio().post(
       url,
@@ -1083,7 +1086,7 @@ class WooCommerce {
   }
 
   /*
-   * Remove itemo from CoCart
+   * Remove item from CoCart
    */
   Future<bool> removeCoCartItem(String key) async {
     await getAuthTokenFromDb();
