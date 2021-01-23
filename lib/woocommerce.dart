@@ -199,7 +199,7 @@ class WooCommerce {
     String token = 'Bearer ' + _authToken;
     try {
       var res = await Dio().post(
-        'http://localhost/enjoysaladnovembre/wp-json/jwt-auth/v1/token/validate',
+        this.baseUrl + URL_JWT_TOKEN + '/validate',
         options: Options(
           headers: {HttpHeaders.authorizationHeader: token},
         ),
